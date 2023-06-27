@@ -4,9 +4,10 @@ import * as yup from 'yup';
 import { FormCont, Label, Btn, Input, ErrMessage } from './ContactForm.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contactsSlise';
+// import { addContact } from 'redux/contactsSlise';
 import { getContacts } from 'redux/selectors';
 import { nanoid } from 'nanoid';
+import { addContactThunk } from 'redux/thunks';
 
 const schema = yup.object().shape({
   name: yup
@@ -46,7 +47,17 @@ export default function ContactForm() {
       resetForm();
       return;
     }
-    dispatch(addContact(values));
+    // -----------
+    // const cont = async values => {
+    //   const data = await addContact(values);
+    //   // const sdata = await getNews();
+    //   console.log(data);
+    //   // console.log(sdata);
+    // };
+    // cont(values);
+
+    // ----------------
+    dispatch(addContactThunk(values));
     resetForm();
   };
   return (
