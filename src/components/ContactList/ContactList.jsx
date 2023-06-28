@@ -7,49 +7,31 @@ import { getContacts, getFilterValue } from 'redux/selectors';
 import Contact from 'components/Contact/Contact';
 import { useEffect } from 'react';
 import { getContactsThunk } from 'redux/thunks';
+import { ToastContainer } from 'react-toastify';
+import { Loader } from 'components/Loader/Loader';
 
 export default function ContactList() {
-  // const { items, isLoading, error } = useSelector(getContacts);
   const { items, isLoading, error } = useSelector(getContacts);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(getContactsThunk());
-  // }, [dispatch]);
-
   const filterValue = useSelector(getFilterValue);
   const normalizedFilter = filterValue.toLowerCase();
-  console.log('items', Array.isArray(items) ? items : []);
 
   const getVisibleContacts = () => {
-    // const normalizedFilter = filterValue.toLowerCase();
-
     return items.filter(contact =>
       contact.name.toLowerCase().includes(normalizedFilter)
     );
   };
 
   const visibleContacts = getVisibleContacts();
-  // const visibleContacts = useSelector(getContacts);
   useEffect(() => {
     dispatch(getContactsThunk());
   }, [dispatch]);
 
-  //   return (
-  //     <ContactsCont>
-  //       {visibleContacts.map(contact => {
-  //         return (
-  //           <li key={contact.id}>
-  //             <Contact contact={contact} />
-  //           </li>
-  //         );
-  //       })}
-  //     </ContactsCont>
-  //   );
-  // }
   return (
     <>
-      {isLoading && <>...loading</>}
+      <ToastContainer autoClose={1500} />
+      {isLoading && <Loader />}
       {Array.isArray(visibleContacts) && (
         <ContactsCont>
           {visibleContacts.map(item => {

@@ -1,12 +1,15 @@
 import PropTypes from 'prop-types';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
+import React from 'react';
+import { toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 import { FormCont, Label, Btn, Input, ErrMessage } from './ContactForm.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
-// import { addContact } from 'redux/contactsSlise';
 import { getContacts } from 'redux/selectors';
-import { nanoid } from 'nanoid';
+
 import { addContactThunk } from 'redux/thunks';
 
 const schema = yup.object().shape({
@@ -32,9 +35,7 @@ const initialValues = {
 };
 
 export default function ContactForm() {
-  // const { items } = useSelector(getContacts);
-
-  const { items } = useSelector(state => state.contacts);
+  const { items } = useSelector(getContacts);
   const dispatch = useDispatch();
 
   const existedContact = (items, values) => {
@@ -42,23 +43,12 @@ export default function ContactForm() {
   };
 
   const handleSubmit = (values, { resetForm }) => {
-    // values.id = nanoid();
     if (existedContact(items, values)) {
-      alert(`${values.name} is already in contacts`);
+      toast(`${values.name} is already in contacts`);
       resetForm();
       return;
     }
-    // -----------
-    // const cont = async values => {
-    //   const data = await addContact(values);
-    //   // const sdata = await getNews();
-    //   console.log(data);
-    //   // console.log(sdata);
-    // };
-    // cont(values);
 
-    // ----------------
-    // console.log('values', values);
     dispatch(addContactThunk(values));
     resetForm();
   };

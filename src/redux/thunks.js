@@ -1,65 +1,55 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { addContact, deleteContact, fetchContacts } from 'Servises/operatons';
+import axios from 'axios';
+axios.defaults.baseURL = 'https://6499f44479fbe9bcf84030e3.mockapi.io';
 
-export const getContactsThunk = createAsyncThunk('contacts/fetchAll', () =>
-  fetchContacts()
+export const getContactsThunk = createAsyncThunk(
+  'contacts/fetchAll',
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get('/contacts');
+
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
 );
 
 export const addContactThunk = createAsyncThunk(
   'contacts/addContact',
-  contact => addContact(contact)
+  async (contact, thunkAPI) => {
+    try {
+      const response = await axios.post('/contacts', { ...contact });
+
+      return await response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
 );
 
 export const deleteContactThunk = createAsyncThunk(
   'contacts/deleteContact',
-  id => deleteContact(id)
-
-  // (id, { rejectWithValue }) => {
-  //   try {
-  //     deleteContact(id);
-  //   } catch (error) {
-  //     return rejectWithValue(error.message);
-  //   }
-  // }
+  async (contactId, thunkAPI) => {
+    try {
+      const response = await axios.delete(`/contacts/${contactId}`);
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
 );
 
-// export const getContactsThunk = createAsyncThunk(
-//   'contacts/fetchAll',
-//   () => fetchContacts()
-
-//   // async (_, { rejectWithValue }) => {
-//   //   try {
-//   //     await fetchContacts();
-//   //   } catch (error) {
-//   //     return rejectWithValue(error.message);
-//   //   }
-//   // }
-// );
-// export const getSearchContactThunk = createAsyncThunk(
-//   'contacts/fetchSearchContact',
-//   async search => await fetchSearchContact(search)
+// export const getContactsThunk = createAsyncThunk('contacts/fetchAll', () =>
+//   fetchContacts()
 // );
 
 // export const addContactThunk = createAsyncThunk(
 //   'contacts/addContact',
 //   contact => addContact(contact)
-
-//   // async (contact, { rejectWithValue }) => {
-//   //   try {
-//   //     await addContact(contact);
-//   //   } catch (error) {
-//   //     return rejectWithValue(error.message);
-//   //   }
-//   // }
 // );
 
 // export const deleteContactThunk = createAsyncThunk(
 //   'contacts/deleteContact',
-//   async (id, { rejectWithValue }) => {
-//     try {
-//       await deleteContact(id);
-//     } catch (error) {
-//       return rejectWithValue(error.message);
-//     }
-//   }
-// );
+//   id => deleteContact(id)
+// )
