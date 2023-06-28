@@ -17,7 +17,7 @@ const schema = yup.object().shape({
       "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
     )
     .required(),
-  number: yup
+  phone: yup
     .string()
     .matches(
       /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
@@ -28,21 +28,21 @@ const schema = yup.object().shape({
 
 const initialValues = {
   name: '',
-  number: '',
+  phone: '',
 };
 
 export default function ContactForm() {
-  const contacts = useSelector(getContacts);
+  const { items } = useSelector(getContacts);
 
   const dispatch = useDispatch();
 
-  const existedContact = (contacts, values) => {
-    return contacts.find(contact => contact.name === values.name);
+  const existedContact = (items, values) => {
+    return items.find(contact => contact.name === values.name);
   };
 
   const handleSubmit = (values, { resetForm }) => {
-    values.id = nanoid();
-    if (existedContact(contacts, values)) {
+    // values.id = nanoid();
+    if (existedContact(items, values)) {
       alert(`${values.name} is already in contacts`);
       resetForm();
       return;
@@ -57,6 +57,7 @@ export default function ContactForm() {
     // cont(values);
 
     // ----------------
+    // console.log('values', values);
     dispatch(addContactThunk(values));
     resetForm();
   };
@@ -72,14 +73,14 @@ export default function ContactForm() {
           <Input type="text" name="name" id="name" placeholder="Jacob Mercer" />
           <ErrMessage name="name" component="div" />
 
-          <Label htmlFor="number">Number</Label>
+          <Label htmlFor="phone">Phone</Label>
           <Input
             type="tel"
-            name="number"
-            id="number"
+            name="phone"
+            id="phone"
             placeholder="080-111-77-55"
           />
-          <ErrMessage name="number" component="div" />
+          <ErrMessage name="phone" component="div" />
           <Btn type="submit">add contact</Btn>
         </FormCont>
       </Form>

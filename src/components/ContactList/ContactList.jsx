@@ -10,7 +10,6 @@ import { getContactsThunk } from 'redux/thunks';
 
 export default function ContactList() {
   const { items, isLoading, error } = useSelector(getContacts);
-  console.log(items);
 
   const dispatch = useDispatch();
 
@@ -18,16 +17,16 @@ export default function ContactList() {
     dispatch(getContactsThunk());
   }, [dispatch]);
 
-  // const filterValue = useSelector(getFilterValue);
+  const filterValue = useSelector(getFilterValue);
+  console.log('items', items);
+  const getVisibleContacts = () => {
+    const normalizedFilter = filterValue.toLowerCase();
 
-  // const getVisibleContacts = () => {
-  //   const normalizedFilter = filterValue.toLowerCase();
-
-  //   return items.filter(contact =>
-  //     contact.name.toLowerCase().includes(normalizedFilter)
-  //   );
-  // };
-  // const visibleContacts = getVisibleContacts();
+    return items.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+  };
+  const visibleContacts = getVisibleContacts();
   //   return (
   //     <ContactsCont>
   //       {visibleContacts.map(contact => {
@@ -43,9 +42,9 @@ export default function ContactList() {
   return (
     <>
       {isLoading && <>...loading</>}
-      {items && (
+      {visibleContacts && (
         <ContactsCont>
-          {items.map(item => {
+          {visibleContacts.map(item => {
             return (
               <li key={item.id}>
                 <Contact contact={item} />

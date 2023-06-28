@@ -49,9 +49,9 @@ export const fetchContacts = async () => {
 // );
 
 export const addContact = async contact => {
-  const response = axios.post('/contacts', { contact });
-  console.log(response.data);
-  return response.data;
+  const response = await axios.post('/contacts', { ...contact });
+
+  return await response.data;
 };
 
 // export const deleteContact = createAsyncThunk(
@@ -68,6 +68,6 @@ export const addContact = async contact => {
 // );
 
 export const deleteContact = async contactId => {
-  const response = axios.delete(`/contacts/${contactId}`);
+  const response = await axios.delete(`/contacts/${contactId}`);
   return response.data;
 };
