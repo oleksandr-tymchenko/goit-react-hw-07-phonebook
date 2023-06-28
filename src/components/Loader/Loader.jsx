@@ -9,8 +9,8 @@ export const Loader = () => {
         radius="9"
         color="grey"
         ariaLabel="three-dots-loading"
-        wrapperStyle
-        wrapperClass
+        // wrapperStyle
+        // wrapperClass
       />
     </Overlay>
   );
