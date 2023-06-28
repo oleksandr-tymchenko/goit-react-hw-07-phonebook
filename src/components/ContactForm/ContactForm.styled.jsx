@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import { Field, ErrorMessage } from 'formik';
+import { theme } from 'styles';
 
 export const FormCont = styled.div`
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,13 +35,14 @@ export const Btn = styled.button`
   justify-content: center;
   align-items: center;
   padding: 7px;
-  background-color: ${props => props.theme.colors.accent};
-  color: ${props => props.theme.colors.light};
+  background: ${theme.colors.mainBackground};
+  /* background-color: ${props => props.theme.colors.tagBackground}; */
+  /* color: ${props => props.theme.colors.light}; */
   border-radius: ${props => props.theme.spacing(3)};
   box-shadow: ${({ theme }) => theme.shadows.small};
 
   &:hover {
-    background-color: ${props => props.theme.colors.light};
+    background: ${props => props.theme.colors.light};
     color: ${props => props.theme.colors.accent};
   }
 `;
