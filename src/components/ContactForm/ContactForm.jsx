@@ -32,8 +32,9 @@ const initialValues = {
 };
 
 export default function ContactForm() {
-  const { items } = useSelector(getContacts);
+  // const { items } = useSelector(getContacts);
 
+  const { items } = useSelector(state => state.contacts);
   const dispatch = useDispatch();
 
   const existedContact = (items, values) => {

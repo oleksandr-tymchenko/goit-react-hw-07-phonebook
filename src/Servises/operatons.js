@@ -1,7 +1,19 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+// import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'https://6499f44479fbe9bcf84030e3.mockapi.io';
+export const fetchContacts = async () => {
+  const response = await axios.get('/contacts');
+  console.log(response.data);
+  return response.data;
+};
+
+export const addContact = async contact => {
+  const response = await axios.post('/contacts', { ...contact });
+
+  return await response.data;
+};
+
 // const BASE_URL = 'https://6499f44479fbe9bcf84030e3.mockapi.io';
 // export const fetchContacts = createAsyncThunk(
 //   'contacts/fetchAll',
@@ -15,12 +27,6 @@ axios.defaults.baseURL = 'https://6499f44479fbe9bcf84030e3.mockapi.io';
 //     }
 //   }
 // );
-
-export const fetchContacts = async () => {
-  const response = await axios.get('/contacts');
-  console.log(response.data);
-  return response.data;
-};
 
 // export const fetchSearchContact = createAsyncThunk(
 //   'contacts/fetchSearchContact',
@@ -47,12 +53,6 @@ export const fetchContacts = async () => {
 //     }
 //   }
 // );
-
-export const addContact = async contact => {
-  const response = await axios.post('/contacts', { ...contact });
-
-  return await response.data;
-};
 
 // export const deleteContact = createAsyncThunk(
 //   'contacts/deleteContact',

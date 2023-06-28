@@ -9,24 +9,32 @@ import { useEffect } from 'react';
 import { getContactsThunk } from 'redux/thunks';
 
 export default function ContactList() {
+  // const { items, isLoading, error } = useSelector(getContacts);
   const { items, isLoading, error } = useSelector(getContacts);
-
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getContactsThunk());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getContactsThunk());
+  // }, [dispatch]);
 
   const filterValue = useSelector(getFilterValue);
-  console.log('items', items);
+  const normalizedFilter = filterValue.toLowerCase();
+  console.log('items', Array.isArray(items) ? items : []);
+
   const getVisibleContacts = () => {
-    const normalizedFilter = filterValue.toLowerCase();
+    // const normalizedFilter = filterValue.toLowerCase();
 
     return items.filter(contact =>
       contact.name.toLowerCase().includes(normalizedFilter)
     );
   };
+
   const visibleContacts = getVisibleContacts();
+  // const visibleContacts = useSelector(getContacts);
+  useEffect(() => {
+    dispatch(getContactsThunk());
+  }, [dispatch]);
+
   //   return (
   //     <ContactsCont>
   //       {visibleContacts.map(contact => {
@@ -42,7 +50,7 @@ export default function ContactList() {
   return (
     <>
       {isLoading && <>...loading</>}
-      {visibleContacts && (
+      {Array.isArray(visibleContacts) && (
         <ContactsCont>
           {visibleContacts.map(item => {
             return (
